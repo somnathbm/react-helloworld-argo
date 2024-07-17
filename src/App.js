@@ -16,12 +16,12 @@ function App() {
 
   const submitDeploy = async (e) => {
     console.log("+ selected color +", selectedColor)
-    const resp = await fetch("https://api.github.com/repos/somnathbm/react-hello-infra/dispatches", {
+    const resp = await fetch("https://api.github.com/repos/somnathbm/react-helloworld-argo-infra/dispatches", {
       method: "POST",
       headers: {
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
-        "Authorization": "PAT_somnathbm"
+        "Authorization": "Bearer " + process.env.REACT_APP_GH_PAT
       },
       body: JSON.stringify({
         event_type: "react-hello-test",
@@ -32,7 +32,7 @@ function App() {
       })
     })
 
-    const final_resp = await resp.json()
+    const final_resp = resp.ok
     console.log(final_resp)
   }
 
@@ -40,7 +40,7 @@ function App() {
     <div className="container">
       <div className="grid grid-cols-[70%_30%]">
         <div className="flex flex-row justify-center items-center w-full h-screen px-4" style={{ backgroundColor: 'teal' }}>
-          <h1 className={`playwrite-cu-type clr-${selectedColor.toLowerCase()}`}>Hello World!!</h1>
+          <h1 className={`playwrite-cu-type clr-${process.env.REACT_APP_HLO_WRLD_CLR?.toLowerCase() || "white"}`}>Hello World!!</h1>
         </div>
         <div className="flex flex-col justify-center items-center w-full h-screen px-4" style={{ backgroundColor: 'gray' }}>
           <Listbox value={selectedColor} onChange={(value) => changeColor(value)}>
