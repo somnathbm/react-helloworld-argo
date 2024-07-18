@@ -3,19 +3,17 @@ import { useState } from 'react'
 import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/20/solid'
 
-const colors = ["Yellow", "Red"]
+const colors = ["yellow", "red"]
 
 function App() {
-  const [selectedColor, setColor] = useState(colors[0])
+  const [selectedColor, setColor] = useState(colors[colors.indexOf(process.env.REACT_APP_HLO_WRLD_CLR)] || colors[0])
 
   const changeColor = (value) => {
-    console.log(value)
     setColor(value)
     // push to the color branch
   }
 
   const submitDeploy = async (e) => {
-    console.log("+ selected color +", selectedColor)
     const resp = await fetch("https://api.github.com/repos/somnathbm/react-helloworld-argo-infra/dispatches", {
       method: "POST",
       headers: {
@@ -33,14 +31,13 @@ function App() {
     })
 
     const final_resp = resp.ok
-    console.log(final_resp)
   }
 
   return (
     <div className="container">
       <div className="grid grid-cols-[70%_30%]">
         <div className="flex flex-row justify-center items-center w-full h-screen px-4" style={{ backgroundColor: 'teal' }}>
-          <h1 className={`playwrite-cu-type clr-${process.env.REACT_APP_HLO_WRLD_CLR?.toLowerCase() || "white"}`}>Hello World!!</h1>
+          <h1 className={`playwrite-cu-type clr-${process.env.REACT_APP_HLO_WRLD_CLR || "white"}`}>Hello World!!</h1>
         </div>
         <div className="flex flex-col justify-center items-center w-full h-screen px-4" style={{ backgroundColor: 'gray' }}>
           <Listbox value={selectedColor} onChange={(value) => changeColor(value)}>
